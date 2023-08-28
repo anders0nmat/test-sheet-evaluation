@@ -1,0 +1,27 @@
+@startuml sequence-diagram
+
+actor User
+participant "File Reader" as reader
+participant "Analyzer" as analyzer
+participant "Result Printer" as result
+
+User ->> reader : Import students sheet(s)
+activate reader
+deactivate reader
+activate User
+User ->> reader : [Solution sheet < 1] Import solution sheet
+activate reader
+deactivate reader
+
+reader -> analyzer : [Sheet count > 0] Analyze Data
+
+activate analyzer
+analyzer -> result : Test results
+deactivate analyzer
+activate result
+
+User <- result : Result sheet (Excel, pdf, ...)
+deactivate result
+deactivate User
+
+@enduml

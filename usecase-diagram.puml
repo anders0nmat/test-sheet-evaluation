@@ -1,0 +1,22 @@
+@startuml usecase-diagram
+
+actor User
+
+rectangle Application {
+    usecase "Upload File" as upload
+    usecase "Upload Solution" as solution
+    usecase "Extract Answers" as extract
+    usecase "Analyze Data" as analyze
+    usecase "Show results" as results
+
+    upload <|-- extract : uses
+    solution <|-- analyze : uses
+    analyze -|> extract : uses
+    analyze <|- results : uses
+}
+
+User -- upload
+User -- solution
+User -- results
+
+@enduml

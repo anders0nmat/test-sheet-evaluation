@@ -1,4 +1,4 @@
-@startuml class-diagramm
+@startuml class-diagram
 
 abstract class AnswerParser {
 	- args: [String]
@@ -17,7 +17,7 @@ class Answer {
 }
 
 
-Student *-- Answer
+Student "1" *-- "0..*" Answer
 
 abstract class AnswerStatistics {
 	- students: [Student]
@@ -39,8 +39,8 @@ class StatisticsRow {
 	+ values: [String]
 }
 
-StatisticsBook *-- StatistcsSheet
-StatistcsSheet *-- StatisticsRow
+StatisticsBook "1" *-- "0..*" StatistcsSheet
+StatistcsSheet "1" *-- "0..*" StatisticsRow
 
 abstract class StatisticsPrinter {
 	- statBook: StatisticsBook
@@ -82,5 +82,12 @@ class CsvPrinter {}
 StatisticsPrinter <|-- FilePrinter
 FilePrinter <|-- ExcelPrinter
 FilePrinter <|-- CsvPrinter
+
+' General relations
+
+AnswerParser <. Student
+Student <. AnswerStatistics
+AnswerStatistics <. StatisticsBook
+StatisticsBook <. StatisticsPrinter
 
 @enduml
