@@ -1,0 +1,86 @@
+@startuml class-diagramm
+
+abstract class AnswerParser {
+	- args: [String]
+
+	+ {static} getParser(args: [String]): AnswerParser?
+	+ extractAnswers(): [Student]
+}
+
+class Student {
+	+ id: Int
+	+ answers: [Answer]
+}
+
+class Answer {
+	+ options: [Int]
+}
+
+
+Student *-- Answer
+
+abstract class AnswerStatistics {
+	- students: [Student]
+	- nerd: Student
+	
+	+ analyze(): StatisticsBook
+}
+
+class StatisticsBook {
+	+ sheets: [StatisticsSheet]
+}
+
+class StatistcsSheet {
+	+ name: String
+	+ rows: [StatisticsRow]
+}
+
+class StatisticsRow {
+	+ values: [String]
+}
+
+StatisticsBook *-- StatistcsSheet
+StatistcsSheet *-- StatisticsRow
+
+abstract class StatisticsPrinter {
+	- statBook: StatisticsBook
+	+ printStatistics()
+}
+
+' Concrete implementations
+
+'' Parsers
+class PdfParser {}
+class PngParser {}
+class CsvParser {}
+
+AnswerParser <|-- PdfParser
+AnswerParser <|-- PngParser
+AnswerParser <|-- CsvParser
+
+'' Statistics
+class SqlStatistics {}
+class CustomStatistics {
+	- calcAvg()
+	- calcStudentAvg()
+	- ...()
+}
+
+AnswerStatistics <|-- SqlStatistics
+AnswerStatistics <|-- CustomStatistics
+
+'' Printers
+abstract class FilePrinter {
+	- filePath: String
+
+	+ {static} getPrinter(path: String): FilePrinter?
+}
+
+class ExcelPrinter {}
+class CsvPrinter {}
+
+StatisticsPrinter <|-- FilePrinter
+FilePrinter <|-- ExcelPrinter
+FilePrinter <|-- CsvPrinter
+
+@enduml
