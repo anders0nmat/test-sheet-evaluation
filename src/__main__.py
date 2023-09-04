@@ -26,7 +26,7 @@ def main():
     nerd = getStudents(solutionPath)
     if len(nerd) > 1:
         raise ValueError() # TODO proper error handling
-    nerd = nerd[0]
+    nerd = nerd[0] if len(nerd) > 0 else None
 
     # STEP 3 : Analyze...
 

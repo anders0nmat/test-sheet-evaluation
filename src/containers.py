@@ -2,14 +2,16 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Answer:
-    options: list[int] = field(default_factory=lambda:[])
+    options: str = ""
     """
-    Each entry represents one detected answer.
-    The integer represents a certainty for a specific value:
+    Each char represents one detected answer.
+    The char represents the state as well as the certainty
 
-    -100 : square was empty
-       0 : square was crossed
-     100 : square was filled
+	X : Answer selected
+    x : Answer probably selected
+    O : Answer empty
+    o : Answer probably empty
+    # : Unable to detect reliably
     """
 
 @dataclass

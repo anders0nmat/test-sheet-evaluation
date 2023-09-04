@@ -18,23 +18,23 @@ class AnswerParser:
         return None
     
     @abc.abstractmethod
-    def extractAnswers() -> list[Student]:
+    def extractAnswers(self) -> list[Student]:
         pass
 
     @abc.abstractclassmethod
-    def canParse(args: list[Any]) -> bool:
+    def canParse(cls, args: list[Any]) -> bool:
         pass
 
 class AnswerStatistics:
     students: list[Student]
-    nerd: Student
+    nerd: Optional[Student]
 
-    def init(self, students: list[Student], nerd: Student):
+    def init(self, students: list[Student], nerd: Optional[Student]):
         self.students = students
         self.nerd = nerd
 
     @abc.abstractmethod
-    def analyze() -> StatisticsBook:
+    def analyze(self) -> StatisticsBook:
         pass
 
 
@@ -46,7 +46,7 @@ class StatisticsPrinter:
         self.statBook = statBook
 
     @abc.abstractmethod
-    def printStatistics():
+    def printStatistics(self):
         pass
 
 class FilePrinter(StatisticsPrinter):
@@ -70,7 +70,7 @@ class FilePrinter(StatisticsPrinter):
         return None
     
     @abc.abstractclassmethod
-    def canPrint(path: Path, book: StatisticsBook) -> bool:
+    def canPrint(cls, path: Path, book: StatisticsBook) -> bool:
         pass
     
 
