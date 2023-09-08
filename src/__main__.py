@@ -1,4 +1,6 @@
-from interfaces import AnswerParser, AnswerStatistics, FilePrinter
+from interfaces import AnswerStatistics
+from parsers import get_parser_result
+from printers import get_printer
 from containers import Student
 from pathlib import Path
 
@@ -6,10 +8,7 @@ from argparse import ArgumentParser
 
 def getStudents(file: Path) -> list[Student]:
 	file = Path(file)
-	if parser := AnswerParser.getParser(args=[file]):
-		return parser.extractAnswers()
-	else:
-		raise ValueError()
+	return get_parser_result([file])
 
 def main():
 	print("Running...")
@@ -21,7 +20,7 @@ def main():
 	argparser.add_argument('sheets', type=Path, help="The sheets to analyze")
 	argparser.add_argument('-s', '--solution', type=Path, help="Solutions for use in analysis")
 	argparser.add_argument('-sid', '--solution-id', type=int, default=0, help="The id for the solution sheet 'student' (Default: 0)")
-	argparser.add_argument('-o', '--output', required=True, type=Path, help="The path/file where the analysis will be outputted")
+	argparser.add_argument('-o', '--output', type=Path, required=True, help="The path/file where the analysis will be outputted")
 	args = argparser.parse_args()
 	# STEP 1 : Get locations
 
@@ -49,7 +48,7 @@ def main():
 
 	# STEP 4 : Print results
 
-	printer = FilePrinter.getPrinter(outputPath, book=book)
+	printer = get_printer(outputPath, book=book)
 	printer.printStatistics()
 
 	print("Finished!")
