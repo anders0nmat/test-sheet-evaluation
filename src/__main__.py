@@ -1,5 +1,5 @@
-from .interfaces import AnswerParser, AnswerStatistics, FilePrinter
-from .containers import Student
+from interfaces import AnswerParser, AnswerStatistics, FilePrinter
+from containers import Student
 from pathlib import Path
 
 def getStudents(file: Path) -> list[Student]:
