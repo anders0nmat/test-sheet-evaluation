@@ -1,8 +1,9 @@
-from src.interfaces import FilePrinter
+from interfaces import FilePrinter
 from openpyxl import Workbook
-from pathlib import Path
 
 class ExcelPrinter(FilePrinter):
+	EXTENSIONS = {'.xlsx', '.xls'}
+
 	def printStatistics(self):
 		workbook = Workbook()
 		for sheet in self.statBook.sheets:
@@ -12,9 +13,5 @@ class ExcelPrinter(FilePrinter):
 		
 		workbook.remove(workbook.active)    
 		workbook.save(self.filePath)
-
-	@classmethod
-	def canPrint(cls, path: Path, book) -> bool:
-		return path.suffix.casefold() in {'.xlsx', '.xls'}
 
 FilePrinter.register(ExcelPrinter)

@@ -1,8 +1,9 @@
 import csv
-from src.interfaces import FilePrinter
-from pathlib import Path
+from interfaces import FilePrinter
 
 class CsvPrinter(FilePrinter):
+	EXTENSIONS = {'.csv'}
+
 	def printStatistics(self):
 		for sheet in self.statBook.sheets:
 			sheet_name = sheet.name
@@ -13,9 +14,5 @@ class CsvPrinter(FilePrinter):
 				csv_writer = csv.writer(csvfile, delimiter=',')
 				for row in sheet_data:
 					csv_writer.writerow(row.values)
-	
-	@classmethod
-	def canPrint(cls, path: Path, book) -> bool:
-		return path.suffix.casefold() == '.csv'
 
 FilePrinter.register(CsvPrinter)

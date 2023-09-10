@@ -1,8 +1,9 @@
-from interfaces import AnswerStatistics
+from analysis.sql import SqlAnalyzer
 from parsers import get_parser_result
 from printers import get_printer
 from containers import Student
 from pathlib import Path
+from typing import Optional
 
 from argparse import ArgumentParser
 
@@ -18,7 +19,7 @@ def main():
 		description="Analyze exam sheets"
 	)
 	argparser.add_argument('sheets', type=Path, help="The sheets to analyze")
-	argparser.add_argument('-s', '--solution', type=Path, help="Solutions for use in analysis")
+	argparser.add_argument('-s', '--solution', type=Path, default=None, help="Solutions for use in analysis")
 	argparser.add_argument('-sid', '--solution-id', type=int, default=0, help="The id for the solution sheet 'student' (Default: 0)")
 	argparser.add_argument('-o', '--output', type=Path, required=True, help="The path/file where the analysis will be outputted")
 	args = argparser.parse_args()
@@ -33,17 +34,20 @@ def main():
 	students = getStudents(sheetsPath)
 
 	# Has all answers correct, what a nerd!
-	nerd = getStudents(solutionPath)
-	if len(nerd) > 1:
-		raise ValueError() # TODO proper error handling
-	nerd = nerd[0] if len(nerd) > 0 else None
-	if nerd is not None:
-		nerd.id = args.solution_id
+	nerd: Optional[Student]
+	if solutionPath is not None:
+		nerd = getStudents(solutionPath)
+		if len(nerd) > 1:
+			raise ValueError() # TODO proper error handling
+		nerd = nerd[0] if len(nerd) > 0 else None
+		if nerd is not None:
+			nerd.id = args.solution_id
+	else:
+		nerd = None
 
 	# STEP 3 : Analyze...
 
-	# TODO build proper statistics class
-	statistics = AnswerStatistics(students, nerd=nerd)
+	statistics = SqlAnalyzer(students, nerd=nerd)
 	book = statistics.analyze()
 
 	# STEP 4 : Print results
