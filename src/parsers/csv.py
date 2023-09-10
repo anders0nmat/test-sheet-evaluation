@@ -39,7 +39,7 @@ class CsvParser(AnswerParser):
         return Nerd
     
     def extractAnswers(self) -> list[Student]:
-        result = [Student]
+        result = list[Student]
         Nerd = Student()
         Nerd = self.readCSV(self.csvFile, self.num_answers)
         result.append(Nerd)
