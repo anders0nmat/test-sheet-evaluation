@@ -1,4 +1,4 @@
-from src.interfaces import AnswerParser
+from interfaces import AnswerParser
 from pdf2image import convert_from_path
 
 # (sudo apt install python3-pip) falls pip nicht installiert 
