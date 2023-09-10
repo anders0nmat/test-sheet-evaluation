@@ -22,6 +22,7 @@ def main():
 	argparser.add_argument('-s', '--solution', type=Path, default=None, help="Solutions for use in analysis")
 	argparser.add_argument('-sid', '--solution-id', type=int, default=0, help="The id for the solution sheet 'student' (Default: 0)")
 	argparser.add_argument('-o', '--output', type=Path, required=True, help="The path/file where the analysis will be outputted")
+	argparser.add_argument('-q', '--sql', type=Path, default=Path('./'), help="File or directory of sql queries (Default: ./)")
 	args = argparser.parse_args()
 	# STEP 1 : Get locations
 
@@ -47,7 +48,7 @@ def main():
 
 	# STEP 3 : Analyze...
 
-	statistics = SqlAnalyzer(students, nerd=nerd)
+	statistics = SqlAnalyzer(students, nerd=nerd, sql_path=args.sql)
 	book = statistics.analyze()
 
 	# STEP 4 : Print results
