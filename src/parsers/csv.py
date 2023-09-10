@@ -13,9 +13,8 @@ class CsvParser(AnswerParser):
     
     # TODO
     def readCSV(self, csv_path, num_answers):
-        Nerd = Student()
-        Nerd.id = 0
-        result = [Answer]
+        Nerd = Student(id=0)
+        result: list[Answer] = []
         with open(csv_path, 'r') as csv_file:
             # use CSV reader (all lines)
             csv_reader = csv.DictReader(csv_file, delimiter=';')
@@ -27,7 +26,7 @@ class CsvParser(AnswerParser):
                 if 'A' <= letter <= 'Z':
                     answer = Answer()
 
-                    string = num_answers*'O'
+                    string: str = num_answers*'O'
                     pos_answer = ord(letter) - ord('A')
                     string = string[:pos_answer] + 'X' + string[pos_answer+1:]
 
@@ -39,8 +38,7 @@ class CsvParser(AnswerParser):
         return Nerd
     
     def extractAnswers(self) -> list[Student]:
-        result = list[Student]
-        Nerd = Student()
+        result: list[Student] = []
         Nerd = self.readCSV(self.csvFile, self.num_answers)
         result.append(Nerd)
         return result
