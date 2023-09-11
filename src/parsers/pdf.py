@@ -12,7 +12,8 @@ from pdf2image import convert_from_path
 # sudo apt-get install poppler-utils
 
 class PdfParser(AnswerParser):
-	# TODO maybe convert to png and hand off to PngParser
+	EXTENSIONS = {'.pdf'}
+
 	pdfFile: Path
 	def __init__(self, args: list[str]) -> None:
 		super().__init__()

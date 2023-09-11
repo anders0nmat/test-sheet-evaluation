@@ -6,6 +6,8 @@ from typing import Optional, Any, Type
 class AnswerParser:
 	__parsers__: list[Type["AnswerParser"]] = []
 
+	EXTENSIONS: set[str] = set()
+
 	@staticmethod
 	def register(parser: Type["AnswerParser"]):
 		AnswerParser.__parsers__.append(parser)
@@ -21,15 +23,15 @@ class AnswerParser:
 	def extractAnswers(self) -> list[Student]:
 		pass
 
-	@abc.abstractclassmethod
+	@classmethod
 	def canParse(cls, args: list[Any]) -> bool:
-		pass
+		return Path(args[0]).suffix.casefold() in {e.casefold() for e in cls.EXTENSIONS}
 
 class AnswerStatistics:
 	students: list[Student]
 	nerd: Optional[Student]
 
-	def init(self, students: list[Student], nerd: Optional[Student]):
+	def __init__(self, students: list[Student], nerd: Optional[Student]):
 		self.students = students
 		self.nerd = nerd
 

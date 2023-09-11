@@ -59,6 +59,18 @@ class SqlAnalyzer(AnswerStatistics):
 		
 		sql_data = []
 
+		if self.nerd is not None:
+			student = self.nerd
+			for iq, question in enumerate(student.answers):
+				sql_params = [
+					student.id,
+					iq+1,
+				]
+				for checkbox in question.options:
+					sql_params.append(checkbox)
+
+				sql_data.append(sql_params)
+
 		for student in self.students:
 			for iq, question in enumerate(student.answers):
 				sql_params = [
