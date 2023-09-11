@@ -1,4 +1,12 @@
-SELECT question, SUM(st.correct) as "correct", COUNT(st.correct)-SUM(st.correct) as "wrong"
+SELECT 
+	question,
+	SUM(st.correct) as "correct",
+	COUNT(st.correct)-SUM(st.correct) as "wrong",
+	CASE 
+		WHEN CAST(SUM(st.correct) AS REAL) / COUNT(st.correct) >= 0.80  THEN "easy" 
+		WHEN CAST(SUM(st.correct) AS REAL) / COUNT(st.correct) >= 0.45  THEN "moderate" 
+		ELSE "hard"
+	END AS "difficulty"
 FROM 
     (SELECT 
         st.id AS id,
