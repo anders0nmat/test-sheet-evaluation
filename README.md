@@ -21,7 +21,7 @@ To install and run TestAssist, you need the following libraries:
 
 Steps to install/run:
 
-1. [Download](/releases/latest) the latest release `.zip`.
+1. [Download](https://github.com/anders0nmat/test-sheet-evaluation/releases) the latest release `.zip`.
 2. Unpack.
 3. Install required python packages with
 	```shell
